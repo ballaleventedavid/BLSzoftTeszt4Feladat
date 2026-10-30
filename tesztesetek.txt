@@ -1,0 +1,28 @@
+BankAccount
+
+- Új számla -> 0 az egyenleg.
+- 1000 befizetése -> 1000 az egyenleg.
+- 1000 és 500,25 befizetése -> 1500,25 az egyenleg.
+- 500-as egyenlegre -100, 0, NaN, pozitív vagy negatív végtelen befizetése -> IllegalArgumentException, marad az 500. Ez öt külön teszteset.
+- 1000-ből 400 felvétele -> 600 az egyenleg.
+- 1000-ből 1000 felvétele -> 0 az egyenleg.
+- 1000-ből 1001 felvétele -> IllegalArgumentException, marad az 1000.
+- 1000-ből -100, 0, NaN, pozitív vagy negatív végtelen felvétele -> IllegalArgumentException, marad az 1000. Ez is öt külön teszteset.
+- Üres számláról 1 felvétele -> IllegalArgumentException, marad a 0.
+- 1000,50-ből 250,25 felvétele -> 750,25 az egyenleg.
+
+BankService
+
+- Mock értesítési szolgáltatással 1000 befizetése -> 1000 az egyenleg. A verify() ellenőrzi a "Sikeresen befizetve" üzenet küldését.
+- @Mock és @InjectMocks használatával 500-ra 1000 befizetése -> 1500 az egyenleg és egy értesítés.
+- 1000 és 500 befizetése -> 1500 az egyenleg és két értesítés. A hívások számát a times(2) ellenőrzi.
+- 500-as egyenlegre -100, 0, NaN, pozitív vagy negatív végtelen befizetése -> kivétel, marad az 500. A verifyNoInteractions() ellenőrzi, hogy nem történt értesítés. Ez öt külön teszteset.
+
+ExchangeRateService
+
+- EUR/HUF árfolyam beállítása 400-ra -> a mock 400-at ad vissza. A when(...).thenReturn(...) adja meg ezt a választ.
+- 100 EUR átváltása 400-as árfolyammal -> 40000 HUF.
+- 50 USD átváltása 350-es árfolyammal -> 17500 HUF.
+- 1000 HUF átváltása 0,0025-ös árfolyammal -> 2,5 EUR.
+
+A tesztek mockokat használnak, valódi értesítési vagy árfolyamszolgáltatást nem hívnak.
